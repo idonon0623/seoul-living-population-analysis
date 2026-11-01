@@ -1,0 +1,10 @@
+{
+  "name": "seoul-living-population-analysis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "과제 3 · 2025 서울 생활인구 밀도와 주간 특화도 분석",
+  "scripts": {
+    "start": "node scripts/serve.cjs",
+    "build": "node scripts/verify.cjs"
+  }
+}

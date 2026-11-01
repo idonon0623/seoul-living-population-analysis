@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164c47">
+  <meta name="description" content="2025년 서울 426개 행정동의 생활인구를 주간 밀도와 주간 특화도(LQ)로 분석한 도시 공간 연구.">
+  <title>서울의 낮은 어디에 집중되는가? · 도시 지표 연구 03</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./vendor/plotly.min.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#research">본문으로 건너뛰기</a>
+  <header class="masthead wrap">
+    <a class="brand" href="#top" aria-label="도시 지표 연구 처음으로"><span class="brand-mark" aria-hidden="true">◩</span> URBAN OBSERVATORY <span class="brand-number">03</span></a>
+    <nav aria-label="주요 메뉴"><a href="#atlas">공간 패턴</a><a href="#compare">지역 비교</a><a href="#methods">분석 방법</a></nav>
+  </header>
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="main-title">
+      <div class="eyebrow"><span class="status-dot"></span> 도시 현상을 지표로 읽기 <span class="eyebrow-divider">/</span> 과제 3</div>
+      <h1 id="main-title">서울의 <em>낮</em>은<br>어디에 집중되는가?</h1>
+      <div class="hero-bottom"><p class="hero-description">같은 서울, 다른 하루.<br>생활인구의 <strong>밀도</strong>와 <strong>주간 특화도</strong>를 함께 읽으며<br class="desktop-break"> 낮에 사람이 모이는 동네의 공간적 차이를 살펴봅니다.</p><div class="study-stamp"><span>SEOUL · 2025</span><strong>426</strong><span>행정동 × 24시간</span></div></div>
+      <div class="hero-rule"><span>생활인구 · Density · Location Quotient</span><a href="#atlas">지도로 살펴보기 <span aria-hidden="true">↘</span></a></div>
+    </section>
+
+    <section id="research" class="research wrap section-block" aria-labelledby="research-title">
+      <div class="section-index">01 / 연구 질문</div>
+      <div><h2 id="research-title">사람이 많은 곳과<br>낮에 더 집중되는 곳은 같을까?</h2><p>서울의 행정동별 주간 생활인구 밀도는 어떻게 다르며, 주간 특화도와 어떤 관계를 보이는가? 두 지표를 함께 살펴보면 업무·상업 활동이 집중되는 지역과 주거 활동의 비중이 큰 지역을 어떻게 구분할 수 있는가?</p><p class="muted">분석 대상은 수업에서 제공한 2025년 시간대별 내국인 생활인구 평균 자료와 2025년 1월 행정동 경계입니다. 주간은 09–17시, 야간은 00–05시로 정의했습니다.</p></div>
+    </section>
+
+    <section class="stats-band" aria-label="분석 요약"><div class="wrap stats-grid">
+      <article><span class="stat-label">분석 공간</span><strong id="kpi-count">426</strong><span class="stat-note">서울 행정동</span></article>
+      <article><span class="stat-label">주간 밀도 최댓값</span><strong id="kpi-density">—</strong><span class="stat-note" id="kpi-density-note">명/km²</span></article>
+      <article><span class="stat-label">주간 특화도 최댓값</span><strong id="kpi-lq">—</strong><span class="stat-note" id="kpi-lq-note">서울 전체 기준 = 1</span></article>
+      <article><span class="stat-label">밀도와 특화도의 관계</span><strong id="kpi-correlation">—</strong><span class="stat-note">426개 동의 상관계수</span></article>
+    </div></section>
+
+    <section id="atlas" class="wrap section-block atlas-section" aria-labelledby="atlas-title">
+      <div class="section-heading"><div><div class="section-index">02 / 공간 시각화</div><h2 id="atlas-title">두 개의 지도로 읽는 낮</h2></div><p>왼쪽은 단위 면적에 얼마나 많은 사람이 있는지,<br>오른쪽은 하루 중 낮의 비중이 얼마나 높은지 보여줍니다.</p></div>
+      <div id="data-status" class="data-status" role="status" aria-live="polite">분석 데이터를 불러오고 있습니다.</div>
+      <div class="explore-controls"><div><label for="district-filter">자치구</label><select id="district-filter"><option value="">서울 전체</option></select></div><div><label for="dong-select">행정동 자세히 보기</label><select id="dong-select"><option value="">행정동 선택</option></select></div><p>지도에서 동을 선택하면<br>하루의 인구 변화를 확인할 수 있습니다.</p></div>
+      <div class="map-grid">
+        <article class="map-panel"><div class="panel-heading"><span class="map-number">A</span><div><h3>주간 생활인구 밀도</h3><p>09–17시 평균 생활인구 / 행정동 면적</p></div><span class="unit">명/km²</span></div><div id="density-map" class="map-canvas" aria-label="행정동별 주간 생활인구 밀도 지도"></div><div id="density-legend" class="map-legend"></div><p class="figure-note">밀도가 높을수록 동일한 면적에 더 많은 생활인구가 있습니다.</p></article>
+        <article class="map-panel"><div class="panel-heading"><span class="map-number">B</span><div><h3>주간 특화도 · LQ</h3><p>동별 주간 비중 / 서울 전체 주간 비중</p></div><span class="unit">서울 = 1</span></div><div id="lq-map" class="map-canvas" aria-label="행정동별 주간 특화도 지도"></div><div id="lq-legend" class="map-legend"></div><p class="figure-note">1보다 높으면 서울 평균보다 주간에 상대적으로 집중됩니다.</p></article>
+      </div>
+      <p class="map-caption">북쪽이 위입니다. 경계는 시각화를 위해 단순화했으며, 면적과 지표는 단순화 전 경계로 계산했습니다. 두 지도는 서로 다른 지표이므로 같은 색의 진하기를 같은 수치로 해석하지 않습니다.</p>
+      <div id="dong-detail" class="dong-detail" aria-live="polite"><span class="detail-kicker">동네의 하루</span><h3>관심 있는 행정동을 선택해 보세요.</h3><p>지도와 행정동 목록에서 선택할 수 있습니다.</p></div>
+      <article class="chart-panel hourly-panel"><div class="panel-title"><h3>선택한 동의 24시간</h3><span>각 지역의 24시간 평균 = 100</span></div><div id="hourly-chart" class="chart hourly-chart" aria-label="선택 행정동의 시간대별 생활인구 그래프"></div><p class="figure-note">각 지역의 연평균 시간대 인구를 그 지역의 24시간 평균으로 나누어 표준화했습니다. 음영은 주간(09–17시)입니다. 시간대별 값은 같은 사람을 반복 포함하므로 24개 값을 더한 결과를 하루 방문자 수로 해석할 수 없습니다.</p></article>
+    </section>
+
+    <section id="compare" class="comparison-section section-block" aria-labelledby="compare-title"><div class="wrap">
+      <div class="section-heading"><div><div class="section-index">03 / 비공간 시각화</div><h2 id="compare-title">밀도와 특화도 사이</h2></div><p>산점도에서 두 지표의 관계를 보고,<br>순위 그래프에서 지역 간 격차를 확인합니다.</p></div>
+      <div class="comparison-grid"><article class="chart-panel"><div class="panel-title"><h3>두 지표의 관계</h3><span>점 하나 = 행정동 하나</span></div><div id="scatter-chart" class="chart" aria-label="주간 생활인구 밀도와 주간 특화도 산점도"></div><p class="figure-note">LQ = 1은 서울 전체와 주간 비중이 같은 기준선입니다. 상관관계는 인과관계를 뜻하지 않습니다.</p></article><article class="chart-panel"><div class="panel-title"><h3>상위 10개 · 하위 5개 동</h3><label class="sr-only" for="rank-metric">순위 지표 선택</label><select id="rank-metric"><option value="density">주간 밀도</option><option value="lq">주간 특화도</option><option value="day_night">주야 생활인구비</option></select></div><div id="rank-chart" class="chart" aria-label="선택 지표의 행정동별 비교 막대그래프"></div><p class="figure-note">선택 범위에서 상위 10개·하위 5개 동을 비교합니다. 자치구를 선택하면 비교 범위가 바뀌며, 값의 높고 낮음은 지역의 우열을 뜻하지 않습니다.</p></article></div>
+    </div></section>
+
+    <section class="wrap section-block findings-section" aria-labelledby="findings-title"><div class="section-index">04 / 주요 결과와 해석</div><h2 id="findings-title">숫자에서 도시 구조로</h2><div id="findings" class="findings"><p>분석 결과를 불러오고 있습니다.</p></div><aside class="interpretation-note"><span>해석의 기준</span><p>주간 밀도는 공간에 모이는 사람의 강도를, 주간 특화도는 하루 안에서의 시간적 구성을 측정합니다. 낮은 LQ는 상대적으로 야간 비중이 큰 상태이며, 인구 감소나 시설 공급 부족을 직접 뜻하지 않습니다.</p></aside></section>
+
+    <section id="methods" class="methods-section section-block" aria-labelledby="methods-title"><div class="wrap"><div class="section-heading"><div><div class="section-index">05 / 지표와 분석 방법</div><h2 id="methods-title">무엇을, 어떻게 측정했나</h2></div><p>계산 단위와 기준을 명시해<br>지표의 의미를 분명하게 합니다.</p></div>
+      <div class="definition-intro"><p><strong>P<sub>ih</sub></strong>는 행정동 <em>i</em>, 시간대 <em>h</em>의 2025년 평균 생활인구(명), <strong>A<sub>i</sub></strong>는 행정동 면적(km²)입니다. 모든 지표는 426개 행정동을 단위로 계산합니다.</p></div>
+      <div class="formula-grid">
+        <article class="formula-card"><div class="formula-index">지표 01 <span>Density</span></div><h3>주간 생활인구 밀도</h3><div class="formula">D<sub>i</sub> = (Σ<sub>h=9…17</sub> P<sub>ih</sub> / 9) / A<sub>i</sub></div><p>9개 주간 시간대의 평균 인구를 행정동 면적으로 나눕니다. 단위는 명/km²입니다.</p><p><strong>높을수록</strong> 단위 면적에 사람이 많이 집중됩니다. 산지·하천 등을 포함한 행정동 전체 면적을 사용하므로 실제 활동 가능 면적의 밀도와는 다릅니다.</p></article>
+        <article class="formula-card"><div class="formula-index">지표 02 <span>Location Quotient</span></div><h3>주간 특화도</h3><div class="formula formula-stack">LQ<sub>i</sub> = <span class="fraction"><span>Σ<sub>h=9…17</sub> P<sub>ih</sub> / Σ<sub>h=0…23</sub> P<sub>ih</sub></span><span>Σ<sub>i</sub> Σ<sub>h=9…17</sub> P<sub>ih</sub> / Σ<sub>i</sub> Σ<sub>h=0…23</sub> P<sub>ih</sub></span></span></div><p>동별 주간 인구·시간 비중을 서울 전체의 같은 비중으로 나눕니다. 단위가 없는 상대 지표입니다.</p><p><strong>1 초과:</strong> 서울 평균보다 주간에 특화. <strong>1 미만:</strong> 서울 평균보다 주간 비중이 낮음. 업종별 고용 대신 시간대별 생활인구를 적용한 LQ입니다.</p></article>
+        <article class="formula-card supplementary"><div class="formula-index">보조 지표 <span>Day / Night</span></div><h3>주야 생활인구비</h3><div class="formula">R<sub>i</sub> = <span class="fraction"><span>Σ<sub>h=9…17</sub> P<sub>ih</sub> / 9</span><span>Σ<sub>h=0…5</sub> P<sub>ih</sub> / 6</span></span></div><p>주간 평균을 야간 평균으로 나눕니다. 1보다 크면 해당 동의 낮 인구가 밤보다 많습니다. 서울 평균을 기준으로 하는 LQ와는 기준이 다릅니다.</p></article>
+      </div>
+      <div class="method-columns"><article><h3>사용 자료와 전처리</h3><ol class="process-list"><li><strong>시간대별 평균 자료 읽기</strong><p>수업 제공 <code>SPOP_2025_ADM_mid.csv</code>를 사용했습니다. 파일명과 달리 시간대별 값은 중앙값이 아니라 산술평균입니다. 수업의 가공 원자료 3,731,760행(365일 × 426동 × 24시간)으로 재계산한 평균과의 최대 차이는 2.91 × 10⁻¹¹명으로, 부동소수점 오차 수준에서 일치했습니다.</p></li><li><strong>행정동 코드 정리와 결합</strong><p>2025년 1월 경계의 행정동 코드를 생활인구 코드와 맞추고, 426개 동의 모든 시간대가 결합됨을 확인했습니다. 동·날짜·시간 중복과 필수값 결측은 없었습니다. 수업 전처리에서 신설동·용두동·용신동 코드를 2025년 초 용신동 코드로 통일한 기준을 따릅니다.</p></li><li><strong>면적과 지표 산출</strong><p>EPSG:5179 투영좌표계에서 면적을 구한 뒤 km²로 변환했습니다. 지표 산출에는 원래 경계를, 지도 표시에만 단순화한 경계를 사용했습니다.</p></li><li><strong>지도와 그래프로 비교</strong><p>동별 주제도, 두 지표의 산점도, 지역별 순위, 시간대별 선그래프를 함께 읽어 밀집 강도와 시간적 집중을 비교했습니다.</p></li></ol></article><article class="limitations"><h3>이 분석으로 알 수 없는 것</h3><p><strong>누가, 왜 이동했는가.</strong> 생활인구는 특정 시점에 존재하는 인구의 추정치입니다. 거주인구·방문자 수·통근자 수와 동일하지 않으며, 통근·관광·쇼핑 같은 방문 목적을 구분하지 못합니다.</p><p><strong>평일과 주말의 차이.</strong> 연평균 시간대 자료이므로 요일·계절·행사에 따른 차이가 압축되어 있습니다. 외국인은 분석에 포함하지 않았습니다.</p><p><strong>토지이용의 인과 효과.</strong> 업무·상업 중심지와 주거지라는 설명은 관찰 패턴에 대한 해석입니다. 토지이용·사업체 자료를 결합한 검증이나 인과추론은 수행하지 않았습니다.</p><p><strong>행정동 내부의 차이.</strong> 동일한 동 안에서도 역 주변과 주거지, 산지의 밀도는 다를 수 있습니다. 행정동 면적과 경계 설정에 따라 결과가 달라지는 공간 단위 효과가 존재합니다.</p><p><strong>원제공기관 최신본과의 차이.</strong> 제공된 가공 원자료로 연평균을 재검증했습니다. 이번 작업에서 서울시 월별 ZIP을 다시 내려받거나 행정동 개편 전후의 원본 중복 집계까지 재감사하지는 않았습니다. 경계의 원외부 제작기관·라이선스는 제공 파일만으로 확인되지 않았습니다.</p></article></div>
+    </div></section>
+
+    <section id="sources" class="wrap section-block sources-section" aria-labelledby="sources-title"><div class="section-index">06 / 자료와 재현</div><h2 id="sources-title">출처와 분석 결과 내려받기</h2><div class="source-table-wrap"><table class="source-table"><thead><tr><th scope="col">자료</th><th scope="col">역할과 기준</th><th scope="col">출처 / 파일</th></tr></thead><tbody><tr><th scope="row">내국인 생활인구</th><td>수업 제공 2025년 행정동·시간대 평균</td><td><a href="https://data.seoul.go.kr/dataList/OA-23016/S/1/datasetView.do" target="_blank" rel="noopener">서울 열린데이터광장 ↗</a></td></tr><tr><th scope="row">행정동 경계</th><td>수업 제공 2025-01-01 기준 GeoJSON</td><td><code>HangJeongDong_ver20250101.geojson</code></td></tr><tr><th scope="row">지표 산출 결과</th><td>426개 동의 밀도·특화도·주야비</td><td><a href="./data/indicators.csv" download>결과 CSV ↓</a></td></tr><tr><th scope="row">수치 검증 기록</th><td>입력 체크섬·원자료 평균 일치 확인</td><td><a href="./data/validation.json" download>검증 JSON ↓</a></td></tr><tr><th scope="row">분석 코드</th><td>전처리와 지표 산출 과정</td><td><a href="https://github.com/idonon0623/seoul-living-population-analysis/tree/main/scripts/assignment3" target="_blank" rel="noopener">GitHub에서 보기 ↗</a></td></tr></tbody></table></div><p class="source-note">이 페이지는 수업 자료에 포함된 집계 데이터를 이용한 과제 결과물입니다. 최신 실시간 현황이 아닌 2025년 기준의 공간 패턴을 보여줍니다.</p></section>
+  </main>
+  <footer class="site-footer"><div class="wrap"><span>URBAN OBSERVATORY <b>03</b></span><p>도시 현상을 지표로 측정하고 공간적으로 해석하기</p><a href="#top">맨 위로 ↑</a></div></footer>
+  <noscript><div class="noscript">지도와 그래프를 보려면 JavaScript를 활성화해 주세요. <a href="./data/indicators.csv">분석 결과 CSV는 여기에서 내려받을 수 있습니다.</a></div></noscript>
+</body>
+</html>
